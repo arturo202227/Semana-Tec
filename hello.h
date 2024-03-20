@@ -1,6 +1,10 @@
+#ifndef HELLO_H
+#define HELLO_H
+
 #include <iostream>
 
-int main() {
+void sayHello() {
     std::cout << "Hello, World!" << std::endl;
-    return 0;
 }
+
+#endif
