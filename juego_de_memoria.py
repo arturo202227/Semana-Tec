@@ -4,7 +4,7 @@
 # 3.- Centrar el dígito en el cuadro.
 # 4.- Mejora extra.
 
-from random import *
+from random import shuffle
 from turtle import *
 
 from freegames import path
@@ -13,7 +13,7 @@ car = path('car.gif')
 tiles = list(range(32)) * 2
 state = {'mark': None}
 hide = [True] * 64
-
+tap_count = 0  # Variable para llevar el conteo de taps
 
 def square(x, y):
     """Draw white square with black outline at (x, y)."""
@@ -40,6 +40,8 @@ def xy(count):
 
 def tap(x, y):
     """Update mark and hidden tiles based on tap."""
+    global tap_count  # Utilizar la variable global tap_count
+    tap_count += 1  # Incrementar el contador de taps
     spot = index(x, y)
     mark = state['mark']
 
@@ -53,6 +55,7 @@ def tap(x, y):
 
 def draw():
     """Draw image and tiles."""
+    global tap_count  # Utilizar la variable global tap_count
     clear()
     goto(0, 0)
     shape(car)
@@ -72,6 +75,12 @@ def draw():
         color('black')
         write(tiles[mark], font=('Arial', 30, 'normal'))
 
+    # Mostrar el número de taps en la pantalla
+    up()  # Mover la tortuga sin dibujar
+    goto(-190, 180)
+    down()  # Volver a activar el dibujo
+    write(f"Taps: {tap_count}", font=('Arial', 16, 'normal'))
+
     update()
     ontimer(draw, 100)
 
@@ -84,3 +93,4 @@ tracer(False)
 onscreenclick(tap)
 draw()
 done()
+
