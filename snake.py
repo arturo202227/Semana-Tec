@@ -1,14 +1,3 @@
-"""Snake, classic arcade game.
-
-Exercises
-
-1. How do you make the snake faster or slower?
-2. How can you make the snake go around the edges?
-3. How would you move the food?
-4. Change the snake to respond to mouse clicks.
-"""
-
-"""Import libraries"""
 from random import randrange
 from turtle import *
 
@@ -18,6 +7,10 @@ from freegames import square, vector
 food = vector(0, 0)
 snake = [vector(10, 0)]
 aim = vector(0, -10)
+
+# Colores aleatorios para la serpiente y la comida al inicio del juego
+snake_color = (randrange(256) / 255, randrange(256) / 255, randrange(256) / 255)
+food_color = (randrange(256) / 255, randrange(256) / 255, randrange(256) / 255)
 
 
 def change(x, y):
@@ -32,7 +25,9 @@ def inside(head):
 
 
 def move():
-    """Move snake forward one segment."""
+    """Move snake and food forward one segment."""
+    global food, snake_color, food_color  # Use global keyword to modify food variable
+
     head = snake[-1].copy()
     head.move(aim)
 
@@ -47,15 +42,37 @@ def move():
         print('Snake:', len(snake))
         food.x = randrange(-15, 15) * 10
         food.y = randrange(-15, 15) * 10
+
     else:
         snake.pop(0)
+
+    # Move food with 1/10 probability
+    if randrange(10) == 0:
+        food.x = randrange(-15, 15) * 10
+        food.y = randrange(-15, 15) * 10
+
+    # Check if food is inside boundaries, adjust if necessary
+    if not inside(food):
+        if food.x < -200:
+            food.x = -200
+        elif food.x > 190:
+            food.x = 190
+        if food.y < -200:
+            food.y = -200
+        elif food.y > 190:
+            food.y = 190
+
+    # Check if snake has eaten food
+    if head == food:
+        print('Snake:', len(snake))
+        snake.append(snake[-1].copy())  # Add new section to the snake
 
     clear()
 
     for body in snake:
-        square(body.x, body.y, 9, 'black')
+        square(body.x, body.y, 9, snake_color)  # Usar el color de la serpiente
 
-    square(food.x, food.y, 9, 'green')
+    square(food.x, food.y, 9, food_color)  # Usar el color de la comida
     update()
     ontimer(move, 100)
 
