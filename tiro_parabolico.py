@@ -1,27 +1,26 @@
-"""Cannon, hitting targets with projectiles.
+"""Cañón, golpeando objetivos con proyectiles.
 
-Exercises
+Ejercicios:
 
-1. Keep score by counting target hits.
-2. Vary the effect of gravity.
-3. Apply gravity to the targets.
-4. Change the speed of the ball.
-"""
+Llevar la cuenta de los puntos contando los impactos en los objetivos.
+Variar el efecto de la gravedad.
+Aplicar gravedad a los objetivos.
+Cambiar la velocidad de la bola."""
 
-"""Import libraries"""
+"""Importa librerias"""
 from random import randrange
 from turtle import *
 
 from freegames import vector
 
-"""Initial conditions"""
+"""Condiciones inciales"""
 ball = vector(-200, -200)
 speed = vector(0, 0)
 targets = []
 
 
 def tap(x, y):
-    """Respond to screen tap."""
+    """Responde al tap de la pantalla"""
     if not inside(ball):
         ball.x = -199
         ball.y = -199
@@ -30,12 +29,12 @@ def tap(x, y):
 
 
 def inside(xy):
-    """Return True if xy within screen."""
+    """Devuelve Verdadero si xy está dentro de la pantalla."""
     return -200 < xy.x < 200 and -200 < xy.y < 200
 
 
 def draw():
-    """Draw ball and targets."""
+    """Dibuja la pelota y los objetivos."""
     clear()
 
     for target in targets:
@@ -49,27 +48,25 @@ def draw():
     update()
 
 def move():
-    """Move ball and targets."""
-    # Generate new random targets
+    """Mueve la bola y los objetos"""
+    # Genera nuevos objetivos aleatorios
     if randrange(40) == 0:
         y = randrange(-150, 150)
         target = vector(200, y)
         targets.append(target)
 
-    # Move all targets and wrap them to the opposite side if they go out of the screen
+    # Regresa los objetivos si se salen de la pantalla
     for target in targets:
-        target.x -= 1  # +0.5 speed
-
-        # Wrap the target to the opposite side if it goes out of the screen
+        target.x -= 1  # +0.5 velocidad
         if not inside(target):
             target.x = 200
 
-    # Move the ball if it's inside the screen
+    # Mueve la bola si esta afuera de la pantalla
     if inside(ball):
-        speed.y -= 0.5  # +0.15 speed
+        speed.y -= 0.5  # +0.15 velocidad
         ball.move(speed)
 
-    # Clear duplicates of targets that have been hit by the ball
+    # Quita los objetos impactados
     dupe = targets.copy()
     targets.clear()
 
@@ -77,13 +74,13 @@ def move():
         if abs(target - ball) > 13:
             targets.append(target)
 
-    # Draw the targets and the ball
+    # Dibuja la bola y los objetos
     draw()
 
-    # Schedule the next move
-    ontimer(move, 20)  # Faster validation
+    # Temporizador en milisegundos
+    ontimer(move, 20)  # Validación más rapida
 
-"""Screen setup"""
+"""Setup de la pantalla"""
 setup(420, 420, 370, 0)
 hideturtle()
 up()

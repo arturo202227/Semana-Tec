@@ -3,7 +3,7 @@ from turtle import *
 
 from freegames import square, vector
 
-"""Initial conditions"""
+"""Condiciones iniciales"""
 food = vector(0, 0)
 snake = [vector(10, 0)]
 aim = vector(0, -10)
@@ -14,19 +14,19 @@ food_color = (randrange(256) / 255, randrange(256) / 255, randrange(256) / 255)
 
 
 def change(x, y):
-    """Change snake direction."""
+    """Cambia la dirección de la serpiente."""
     aim.x = x
     aim.y = y
 
 
 def inside(head):
-    """Return True if head inside boundaries."""
+    """Devolver Verdadero si la cabeza está dentro de los límites."""
     return -200 < head.x < 190 and -200 < head.y < 190
 
 
 def move():
-    """Move snake and food forward one segment."""
-    global food, snake_color, food_color  # Use global keyword to modify food variable
+    """Mueve la serpiente y la comida hacia adelante un segmento."""
+    global food, snake_color, food_color 
 
     head = snake[-1].copy()
     head.move(aim)
@@ -46,12 +46,12 @@ def move():
     else:
         snake.pop(0)
 
-    # Move food with 1/10 probability
+    # Mueve la comida con un 10% de probabilidad en cada paso
     if randrange(10) == 0:
         food.x = randrange(-15, 15) * 10
         food.y = randrange(-15, 15) * 10
 
-    # Check if food is inside boundaries, adjust if necessary
+    # Verifica que la comida se ecnuentre dentro de los parametros y corrije si es necesario
     if not inside(food):
         if food.x < -200:
             food.x = -200
@@ -62,10 +62,10 @@ def move():
         elif food.y > 190:
             food.y = 190
 
-    # Check if snake has eaten food
+    # Verifica si la serpiente comio
     if head == food:
         print('Snake:', len(snake))
-        snake.append(snake[-1].copy())  # Add new section to the snake
+        snake.append(snake[-1].copy())  # Agrega una nueva sección a la serpiente
 
     clear()
 
