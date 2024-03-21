@@ -57,10 +57,10 @@ def move():
         targets.append(target)
 
     for target in targets:
-        target.x -= 0.5
+        target.x -= 1 # +0.5 speed
 
     if inside(ball):
-        speed.y -= 0.35
+        speed.y -= 0.5 # +0.15 speed
         ball.move(speed)
 
     dupe = targets.copy()
@@ -76,9 +76,9 @@ def move():
         if not inside(target):
             return
 
-    ontimer(move, 50)
+    ontimer(move, 20)  # Faster validation
 
-
+"""Screen setup"""
 setup(420, 420, 370, 0)
 hideturtle()
 up()
