@@ -26,8 +26,16 @@ def square(start, end):
         left(90)                    # Gira 90 grados a la izquierda para dibujar el siguiente lado.
     end_fill()
 
-# Círculo  // PENDIENTE.
-# def circle(center, radius):
+# Dibujo un círulo.
+def circulo(start, end):
+    center = (start + end) / 2      # Calcula el centro del círculo como el punto medio entre los dos puntos.
+    radius = abs(end - start) / 2   # Calcula el radio como la mitad de la distancia entre los dos puntos.
+    up()                            # Levanta el lápiz para moverse sin dibujar.
+    goto(center.x, center.y - radius)# Mueve el cursor al inicio de donde será el círculo.
+    down()                          # Baja el lápiz para comenzar a dibujar.
+    begin_fill()                    # Comienza a rellenar el círculo.
+    circle(radius)                  # Dibuja el círculo con el radio calculado.
+    end_fill()
 
 # Dibuja un retángulo.
 def rectangle(start, end):
@@ -90,7 +98,7 @@ onkey(lambda: color('yellow'), 'Y') # Color que se agrego : Amarillo.
 
 onkey(lambda: store('shape', line), 'l')
 onkey(lambda: store('shape', square), 's')
-onkey(lambda: store('shape', circle), 'c')
+onkey(lambda: store('shape', circulo), 'c')
 onkey(lambda: store('shape', rectangle), 'r')
 onkey(lambda: store('shape', triangle), 't')
 
