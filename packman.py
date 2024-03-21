@@ -48,6 +48,8 @@ tiles = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 ]
+
+
 # fmt: on
 
 
@@ -106,7 +108,6 @@ def world():
                 path.goto(x + 10, y + 10)
                 path.dot(2, 'white')
 
-
 def move():
     """Move pacman and all ghosts."""
     writer.undo()
@@ -131,18 +132,35 @@ def move():
     dot(20, 'yellow')
 
     for point, course in ghosts:
+        # Calculate the new direction for the ghost
+        options = [
+            vector(5, 0),
+            vector(-5, 0),
+            vector(0, 5),
+            vector(0, -5),
+        ]
+        best_option = None
+        min_distance = float('inf')
+
+        for option in options:
+            new_point = point + option
+            if valid(new_point):
+                distance_to_pacman = abs(new_point - pacman)
+                if distance_to_pacman < min_distance:
+                    min_distance = distance_to_pacman
+                    best_option = option
+
+        # Update ghost's direction
+        if best_option is not None:
+            course.x = best_option.x
+            course.y = best_option.y
+
+        # Move the ghost
         if valid(point + course):
             point.move(course)
         else:
-            options = [
-                vector(5, 0),
-                vector(-5, 0),
-                vector(0, 5),
-                vector(0, -5),
-            ]
-            plan = choice(options)
-            course.x = plan.x
-            course.y = plan.y
+            # If the next move is invalid, randomize direction
+            course.x, course.y = choice([(5, 0), (-5, 0), (0, 5), (0, -5)])
 
         up()
         goto(point.x + 10, point.y + 10)
