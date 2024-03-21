@@ -1,13 +1,8 @@
-"""Memory, puzzle game of number pairs.
-
-Exercises:
-
-1. Count and print how many taps occur.
-2. Decrease the number of tiles to a 4x4 grid.
-3. Detect when all tiles are revealed.
-4. Center single-digit tile.
-5. Use letters instead of tiles.
-"""
+# FUNCIONALIDADES QUE SE AÑADIERON.
+# 1.- Contar y desplegar el número de taps.
+# 2.- Detectar cuando todos los cuadros se han destapado.
+# 3.- Centrar el dígito en el cuadro.
+# 4.- Mejora extra.
 
 from random import *
 from turtle import *
