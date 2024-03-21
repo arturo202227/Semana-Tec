@@ -8,11 +8,13 @@ Exercises
 4. Change the speed of the ball.
 """
 
+"""Import libraries"""
 from random import randrange
 from turtle import *
 
 from freegames import vector
 
+"""Initial conditions"""
 ball = vector(-200, -200)
 speed = vector(0, 0)
 targets = []
