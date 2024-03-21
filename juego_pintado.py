@@ -26,16 +26,8 @@ def square(start, end):
         left(90)
     end_fill()
 
-# Círculo.
-def circle(start, end):
-    radius = abs(end.x - start.x) / 2
-    center_x = (start.x + end.x) / 2
-    center_y = (start.y + end.y) / 2
-
-    up()
-    goto(center_x + radius, center_y)
-    down()
-    circle(radius)
+# Círculo  // PENDIENTE.
+# def circle(center, radius):
 
 # Rectángulo.
 def rectangle(start, end):
