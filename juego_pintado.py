@@ -1,3 +1,10 @@
+# FUNCIONALIDADES QUE SE AÑADIERON.
+# 1.- Agregar un color nuevo.
+# 2.- Dibujar un círculo.
+# 3.- Dibujar un rectángulo.
+# 4.- Dibujar un triángulo.
+
+# Importación de módulos para dibujar e importar un tipo de clase "vector."
 from turtle import *
 from freegames import vector
 
