@@ -1,5 +1,4 @@
 """Memory, puzzle game of number pairs.
-""Silvana ""
 
 Exercises:
 
