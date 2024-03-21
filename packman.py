@@ -106,19 +106,18 @@ def world():
                 path.goto(x + 10, y + 10)
                 path.dot(2, 'white')
 
-
 def move():
-    """Move pacman and all ghosts."""
     writer.undo()
     writer.write(state['score'])
 
     clear()
 
+    # Move Pac-Man
     if valid(pacman + aim):
         pacman.move(aim)
 
+    # Check for collision with food tile
     index = offset(pacman)
-
     if tiles[index] == 1:
         tiles[index] = 2
         state['score'] += 1
@@ -126,35 +125,55 @@ def move():
         y = 180 - (index // 20) * 20
         square(x, y)
 
+    # Draw Pac-Man
     up()
     goto(pacman.x + 10, pacman.y + 10)
     dot(20, 'yellow')
 
+    # Move ghosts
     for point, course in ghosts:
+        # Calculate the best direction for the ghost to move towards Pac-Man
+        options = [
+            vector(2.5, 0),
+            vector(-2.5, 0),
+            vector(0, 2.5),
+            vector(0, -2.5),
+        ]
+        best_option = None
+        min_distance = float('inf')
+
+        for option in options:
+            new_point = point + option
+            if valid(new_point):
+                distance_to_pacman = abs(new_point - pacman)
+                if distance_to_pacman < min_distance:
+                    min_distance = distance_to_pacman
+                    best_option = option
+
+        # Update the ghost's course
+        if best_option is not None:
+            course.x = best_option.x
+            course.y = best_option.y
+
+        # Move the ghost if the new position is valid
         if valid(point + course):
             point.move(course)
-        else:
-            options = [
-                vector(5, 0),
-                vector(-5, 0),
-                vector(0, 5),
-                vector(0, -5),
-            ]
-            plan = choice(options)
-            course.x = plan.x
-            course.y = plan.y
 
+        # Draw the ghost
         up()
         goto(point.x + 10, point.y + 10)
         dot(20, 'red')
 
     update()
 
+    # Check for collision between Pac-Man and ghosts
     for point, course in ghosts:
         if abs(pacman - point) < 20:
             return
 
-    ontimer(move, 100)
+    # Schedule the next move
+    ontimer(move, 50)
+
 
 
 def change(x, y):
