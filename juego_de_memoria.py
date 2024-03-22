@@ -1,9 +1,3 @@
-# FUNCIONALIDADES QUE SE AÑADIERON.
-# 1.- Contar y desplegar el número de taps.
-# 2.- Detectar cuando todos los cuadros se han destapado.
-# 3.- Centrar el dígito en el cuadro.
-# 4.- Mejora extra.
-
 from random import shuffle
 from turtle import *
 
@@ -71,9 +65,10 @@ def draw():
     if mark is not None and hide[mark]:
         x, y = xy(mark)
         up()
-        goto(x + 2, y)
+        # Centrar el dígito en el cuadro
+        goto(x + 25, y + 10)
         color('black')
-        write(tiles[mark], font=('Arial', 30, 'normal'))
+        write(tiles[mark], align='center', font=('Arial', 30, 'normal'))
 
     # Mostrar el número de taps en la pantalla
     up()  # Mover la tortuga sin dibujar
