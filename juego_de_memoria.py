@@ -1,9 +1,3 @@
-# FUNCIONALIDADES QUE SE AÑADIERON.
-# 1.- Contar y desplegar el número de taps.
-# 2.- Detectar cuando todos los cuadros se han destapado.
-# 3.- Centrar el dígito en el cuadro.
-# 4.- Mejora extra.
-
 from random import shuffle
 from turtle import *
 
@@ -52,6 +46,16 @@ def tap(x, y):
         hide[mark] = False
         state['mark'] = None
 
+    # Verificar si todos los cuadros están destapados
+    if all_uncovered():
+        print("¡Todos los cuadros han sido destapados!")
+        # Aquí puedes agregar la lógica adicional que desees cuando se destapen todos los cuadros.
+
+
+def all_uncovered():
+    """Check if all tiles are uncovered."""
+    return all(not tile_hidden for tile_hidden in hide)
+
 
 def draw():
     """Draw image and tiles."""
@@ -71,9 +75,10 @@ def draw():
     if mark is not None and hide[mark]:
         x, y = xy(mark)
         up()
-        goto(x + 2, y)
+        # Centrar el dígito en el cuadro
+        goto(x + 25, y + 10)
         color('black')
-        write(tiles[mark], font=('Arial', 30, 'normal'))
+        write(tiles[mark], align='center', font=('Arial', 30, 'normal'))
 
     # Mostrar el número de taps en la pantalla
     up()  # Mover la tortuga sin dibujar
