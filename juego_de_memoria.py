@@ -1,3 +1,5 @@
+# Version final
+
 from random import shuffle
 from turtle import *
 import time
@@ -43,7 +45,7 @@ def toque(x, y):
     pos = indice(x, y)
     marcas = state['marcas']
 
-    if pos in marcas:
+    if pos in marcas or not oculto[pos]:  # Si ya está destapado, salir
         return
 
     marcas.append(pos)
@@ -55,6 +57,8 @@ def toque(x, y):
             fail_sound.play()
         else:
             success_sound.play()
+            oculto[marcas[0]] = False  # Marcar como no oculto
+            oculto[marcas[1]] = False  # Marcar como no oculto
 
     if len(marcas) > 2:
         marcas.pop(0)
@@ -101,9 +105,6 @@ def dibujar():
 def ocultar_numeros():
     """Ocultar los números después de 2 segundos."""
     state['marcas'] = []
-    for cont in range(64):
-        if not oculto[cont]:
-            oculto[cont] = True
     update()
 
 # Mezclar los números para los cuadros
