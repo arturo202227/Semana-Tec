@@ -71,9 +71,14 @@ def draw():
     if mark is not None and hide[mark]:
         x, y = xy(mark)
         up()
-        goto(x + 2, y)
+        number = tiles[mark]
+        # Ajusta manualmente las coordenadas para centrar el número
+        if number < 10:
+            goto(x + 15, y)
+        else:
+            goto(x + 5, y)  # Ajusta para números de dos dígitos
         color('black')
-        write(tiles[mark], font=('Arial', 30, 'normal'))
+        write(number, font=('Arial', 30, 'normal'))
 
     # Mostrar el número de taps en la pantalla
     up()  # Mover la tortuga sin dibujar
@@ -85,6 +90,7 @@ def draw():
     ontimer(draw, 100)
 
 
+
 shuffle(tiles)
 setup(420, 420, 370, 0)
 addshape(car)
@@ -93,4 +99,3 @@ tracer(False)
 onscreenclick(tap)
 draw()
 done()
-
