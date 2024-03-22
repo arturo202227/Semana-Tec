@@ -1,16 +1,7 @@
-"""Pacman, classic arcade game.
-
-Exercises
-
-1. Change the board.
-2. Change the number of ghosts.
-3. Change where pacman starts.
-4. Make the ghosts faster/slower.
-5. Make the ghosts smarter.
-"""
-
 from random import choice
 from turtle import *
+import time
+import pygame
 
 from freegames import floor, vector
 
@@ -25,6 +16,15 @@ ghosts = [
     [vector(100, 160), vector(0, -5)],
     [vector(100, -160), vector(-5, 0)],
 ]
+
+# Inicializar Pygame y cargar los sonidos
+pygame.mixer.init()
+pygame.mixer.music.load('archivo3.wav')  # Para reproducir en bucle
+
+# Reproducir el sonido de fondo en bucle
+pygame.mixer.music.play(-1)
+
+
 # fmt: off
 tiles = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -50,7 +50,6 @@ tiles = [
 ]
 # fmt: on
 
-
 def square(x, y):
     """Draw square using path at (x, y)."""
     path.up()
@@ -64,14 +63,12 @@ def square(x, y):
 
     path.end_fill()
 
-
 def offset(point):
     """Return offset of point in tiles."""
     x = (floor(point.x, 20) + 200) / 20
     y = (180 - floor(point.y, 20)) / 20
     index = int(x + y * 20)
     return index
-
 
 def valid(point):
     """Return True if point is valid in tiles."""
@@ -86,7 +83,6 @@ def valid(point):
         return False
 
     return point.x % 20 == 0 or point.y % 20 == 0
-
 
 def world():
     """Draw world using path."""
@@ -106,7 +102,6 @@ def world():
                 path.goto(x + 10, y + 10)
                 path.dot(2, 'white')
 
-
 def move():
     """Move pacman and all ghosts."""
     writer.undo()
@@ -125,7 +120,6 @@ def move():
         x = (index % 20) * 20 - 200
         y = 180 - (index // 20) * 20
         square(x, y)
-
     up()
     goto(pacman.x + 10, pacman.y + 10)
     dot(20, 'yellow')
@@ -156,13 +150,11 @@ def move():
 
     ontimer(move, 50)
 
-
 def change(x, y):
     """Change pacman aim if valid."""
     if valid(pacman + vector(x, y)):
         aim.x = x
         aim.y = y
-
 
 setup(420, 420, 370, 0)
 hideturtle()

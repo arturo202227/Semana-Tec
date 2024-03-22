@@ -1,79 +1,95 @@
-# FUNCIONALIDADES QUE SE AÑADIERON.
-# 1.- Agregar un color nuevo.
-# 2.- Dibujar un círculo.
-# 3.- Dibujar un rectángulo.
-# 4.- Dibujar un triángulo.
-
-#  Importación para dibujar gráficos y una clase de tipo "vector".
+import pygame
 from turtle import *
 from freegames import vector
 
+# Inicializar el módulo de sonido de pygame
+pygame.mixer.init()
+
+# Cargar el archivo de sonido
+sound = pygame.mixer.Sound("archivo7.wav")
+
+# Función para reproducir el sonido
+def play_sound():
+    sound.play()
+
+# Función para detener el sonido
+def stop_sound():
+    sound.stop()
+
 # Dibujo de una línea. 
 def line(start, end):
-    up()                            # Levanta el lápiz para moverse sin dibujar.
-    goto(start.x, start.y)          # Mueve el cursor a la coordenada inicial.
-    down()                          # Baja el lápiz para comenzar a dibujar.
-    goto(end.x, end.y)              # Dibuja una línea desde la coordenada inicial hasta la final.
+    play_sound()  # Reproducir el sonido
+    up()                            
+    goto(start.x, start.y)          
+    down()                          
+    goto(end.x, end.y)              
+    stop_sound()                    # Detener el sonido al completar el dibujo.
 
 # Dibujo de un cuadrado.
 def square(start, end):
-    up()                            # Levanta el lápiz para moverse sin dibujar.
-    goto(start.x, start.y)          # Mueve el cursor a la coordenada inicial.
-    down()                          # Baja el lápiz para comenzar a dibujar.
-    begin_fill()                    # Comienza con el cuadrado.
-    for _ in range(4):              # Repite cuatro veces para dibujar los cuatro lados del cuadrado.
-        forward(end.x - start.x)    # Avanza la distancia entre el inicio y el final en la dirección actual (horizontal o vertical).
-        left(90)                    # Gira 90 grados a la izquierda para dibujar el siguiente lado.
+    play_sound()  # Reproducir el sonido
+    up()                            
+    goto(start.x, start.y)          
+    down()                          
+    begin_fill()                    
+    for _ in range(4):              
+        forward(end.x - start.x)    
+        left(90)                    
     end_fill()
+    stop_sound()                    # Detener el sonido al completar el dibujo.
 
-# Dibujo un círulo.
+# Dibujo un círculo.
 def circulo(start, end):
-    center = (start + end) / 2      # Calcula el centro del círculo como el punto medio entre los dos puntos.
-    radius = abs(end - start) / 2   # Calcula el radio como la mitad de la distancia entre los dos puntos.
-    up()                            # Levanta el lápiz para moverse sin dibujar.
-    goto(center.x, center.y - radius)# Mueve el cursor al inicio de donde será el círculo.
-    down()                          # Baja el lápiz para comenzar a dibujar.
-    begin_fill()                    # Comienza a rellenar el círculo.
-    circle(radius)                  # Dibuja el círculo con el radio calculado.
+    play_sound()  # Reproducir el sonido
+    center = (start + end) / 2      
+    radius = abs(end - start) / 2   
+    up()                            
+    goto(center.x, center.y - radius)
+    down()                          
+    begin_fill()                    
+    circle(radius)                  
     end_fill()
+    stop_sound()                    # Detener el sonido al completar el dibujo.
 
 # Dibuja un retángulo.
 def rectangle(start, end):
-    up()                            # Levanta el lápiz para moverse sin dibujar.
-    goto(start.x, start.y)          # Mueve el cursor a la coordenada inicial.
-    down()                          # Baja el lápiz para comenzar a dibujar.
-    begin_fill()                    # Comienza con el rectángulo.
-    for _ in range(2):              # Repite dos veces para dibujar los dos lados largos del rectángulo.
-        forward(end.x - start.x)    # Avanza la distancia entre el inicio y el final en la dirección actual (horizontal)
-        left(90)                    # Gira 90 grados a la izquierda para dibujar el siguiente lado (ancho).
-        forward(20)                 # Avanza una distancia fija para dibujar los lados cortos.
-        left(90)                    # Gira 90 grados a la izquierda para dibujar el siguiente lado (largo).
+    play_sound()  # Reproducir el sonido
+    up()                            
+    goto(start.x, start.y)          
+    down()                          
+    begin_fill()                    
+    for _ in range(2):              
+        forward(end.x - start.x)    
+        left(90)                    
+        forward(20)                 
+        left(90)                    
     end_fill()
-
+    stop_sound()                    # Detener el sonido al completar el dibujo.
 
 # Dibuja un triángulo.
 def triangle(start, end):
-    up()                            # Levanta el lápiz para moverse sin dibujar.
-    goto(start.x, start.y)          # Mueve el cursor a la coordenada inicial.
-    down()                          # Baja el lápiz para comenzar a dibujar.
-    begin_fill()                    # Comienza a rellenar el triángulo.
-    vertex_y = start.y + 20         # Calcula la coordenada y del vértice superior del triángulo.
-    goto(end.x, start.y)            # Primer lado: desde el inicio hasta el extremo derecho.
-    goto((start.x + end.x) / 2, vertex_y)  # Segundo lado: desde el extremo derecho hasta el vértice superior.
-    goto(start.x, start.y)          # Tercer lado: desde el vértice superior hasta el inicio.
+    play_sound()  # Reproducir el sonido
+    up()                            
+    goto(start.x, start.y)          
+    down()                          
+    begin_fill()                    
+    vertex_y = start.y + 20         
+    goto(end.x, start.y)            
+    goto((start.x + end.x) / 2, vertex_y)  
+    goto(start.x, start.y)          
     end_fill()
+    stop_sound()                    # Detener el sonido al completar el dibujo.
 
 # Maneja clicks del mouse.
 def tap(x, y):
-    start = state['start']          # Obtiene el punto de inicio actualmente almacenado en el estado.
+    start = state['start']          
     if start is None:
-        state['start'] = vector(x, y)# Almacena el punto actual como el punto de inicio
+        state['start'] = vector(x, y)
     else:
-        shape = state['shape']      # Si hay un punto de inicio almacenado, obtiene la forma que se va a dibujar.
-        end = vector(x, y)          # Crea un vector con las coordenadas del punto actual.
-        shape(start, end)           # Llama a la función correspondiente para dibujar la forma, pasando el punto de inicio y el punto actual.
-        state['start'] = None       # Reinicia el punto de inicio para que se pueda dibujar una nueva forma.
-
+        shape = state['shape']      
+        end = vector(x, y)          
+        shape(start, end)           
+        state['start'] = None       
 
 # Guardar valor en una llave..
 def store(key, value):
@@ -94,7 +110,7 @@ onkey(lambda: color('white'), 'W')
 onkey(lambda: color('green'), 'G')
 onkey(lambda: color('blue'), 'B')
 onkey(lambda: color('red'), 'R')
-onkey(lambda: color('yellow'), 'Y') # Color que se agrego : Amarillo.
+onkey(lambda: color('yellow'), 'Y')
 
 onkey(lambda: store('shape', line), 'l')
 onkey(lambda: store('shape', square), 's')
@@ -102,5 +118,4 @@ onkey(lambda: store('shape', circulo), 'c')
 onkey(lambda: store('shape', rectangle), 'r')
 onkey(lambda: store('shape', triangle), 't')
 
-# Fin del programa.
 done()

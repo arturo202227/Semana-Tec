@@ -1,31 +1,32 @@
-"""Cañón, golpeando objetivos con proyectiles.
-
-Ejercicios:
-
-Llevar la cuenta de los puntos contando los impactos en los objetivos.
-Variar el efecto de la gravedad.
-Aplicar gravedad a los objetivos.
-Cambiar la velocidad de la bola."""
-
-"""Importa librerias"""
 from random import randrange
 from turtle import *
+import pygame
 
 from freegames import vector
+
+# Inicializar Pygame y cargar el sonido de la bola y la pérdida
+pygame.mixer.init()
 
 """Condiciones inciales"""
 ball = vector(-200, -200)
 speed = vector(0, 0)
 targets = []
 
+# Cargar sonidos
+ball_sound = pygame.mixer.Sound('archivo5.wav')  # Cambia 'archivo5.wav' al nombre de tu archivo de sonido
+impact_sound = pygame.mixer.Sound('archivo6.wav')  # Cambia 'archivo6.wav' al nombre de tu archivo de sonido
+
 
 def tap(x, y):
     """Responde al tap de la pantalla"""
+    global ball_sound
+
     if not inside(ball):
         ball.x = -199
         ball.y = -199
         speed.x = (x + 200) / 25
         speed.y = (y + 200) / 25
+        ball_sound.play()  # Reproducir sonido de la bola
 
 
 def inside(xy):
@@ -47,8 +48,11 @@ def draw():
 
     update()
 
+
 def move():
     """Mueve la bola y los objetos"""
+
+
     # Genera nuevos objetivos aleatorios
     if randrange(40) == 0:
         y = randrange(-150, 150)
@@ -73,12 +77,15 @@ def move():
     for target in dupe:
         if abs(target - ball) > 13:
             targets.append(target)
+        else:
+            impact_sound.play()  # Reproducir sonido de impacto
 
     # Dibuja la bola y los objetos
     draw()
 
     # Temporizador en milisegundos
-    ontimer(move, 20)  # Validación más rapida
+    ontimer(move, 20)  # Validación más rápida
+
 
 """Setup de la pantalla"""
 setup(420, 420, 370, 0)
