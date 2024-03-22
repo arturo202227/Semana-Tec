@@ -2,6 +2,7 @@ from random import choice
 from turtle import *
 import time
 import pygame
+import pygame.mixer
 
 from freegames import floor, vector
 
@@ -17,9 +18,11 @@ ghosts = [
     [vector(100, -160), vector(-5, 0)],
 ]
 
+ghost_colors = ['red', 'orange', 'pink', 'cyan']
+
 # Inicializar Pygame y cargar los sonidos
 pygame.mixer.init()
-pygame.mixer.music.load('archivo3.wav')  # Para reproducir en bucle
+pygame.mixer.music.load('archivo3.wav')  # Para reproducir en bucle 
 
 # Reproducir el sonido de fondo en bucle
 pygame.mixer.music.play(-1)
@@ -87,14 +90,21 @@ def valid(point):
 def world():
     """Draw world using path."""
     bgcolor('black')
-    path.color('blue')
-
+    
     for index in range(len(tiles)):
         tile = tiles[index]
-
+        x = (index % 20) * 20 - 200
+        y = 180 - (index // 20) * 20
+        
+        # Define colores para diferentes valores de tiles
+        if tile == 0:
+            path.color('blue')  # Color azul para caminos
+        elif tile == 1:
+            path.color('green')  # Color marrón para las paredes
+        elif tile == 2:
+            path.color('green')  # Color verde para los puntos
+        
         if tile > 0:
-            x = (index % 20) * 20 - 200
-            y = 180 - (index // 20) * 20
             square(x, y)
 
             if tile == 1:
@@ -124,7 +134,15 @@ def move():
     goto(pacman.x + 10, pacman.y + 10)
     dot(20, 'yellow')
 
-    for point, course in ghosts:
+    # Comprobación de colisión entre Pacman y los fantasmas
+    for i, (point, course) in enumerate(ghosts):
+        if abs(pacman - point) < 20:
+            pygame.mixer.music.stop()  # Detener la música principal
+            # Reproducir el sonido
+            pygame.mixer.Sound('archivo3.1.wav').play()
+            return
+
+    for i, (point, course) in enumerate(ghosts):
         if valid(point + course):
             point.move(course)
         else:
@@ -140,13 +158,9 @@ def move():
 
         up()
         goto(point.x + 10, point.y + 10)
-        dot(20, 'red')
+        dot(20, ghost_colors[i])  # Asignar color fijo a cada fantasma
 
     update()
-
-    for point, course in ghosts:
-        if abs(pacman - point) < 20:
-            return
 
     ontimer(move, 50)
 
